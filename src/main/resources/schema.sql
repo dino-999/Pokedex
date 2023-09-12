@@ -6,3 +6,9 @@ CREATE TABLE IF NOT EXISTS pokemon (
                          type VARCHAR(255)
 );
 
+CREATE TABLE IF NOT EXISTS refresh_token (
+                         id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                         expiry_date TIMESTAMP NOT NULL,
+                         token VARCHAR(255) NOT NULL,
+                         username VARCHAR(255) NOT NULL
+);
