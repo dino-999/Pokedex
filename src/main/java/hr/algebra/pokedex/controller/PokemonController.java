@@ -31,6 +31,14 @@ public class PokemonController {
                 );
     }
 
+    @GetMapping("/test/{id}")
+    public List<PokemonDTO> getByIdVulnurable(@PathVariable final String id) {
+        return pokemonService.findByIdVulnurable(id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pokemon was not found by that id")
+                );
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public PokemonDTO save(@Valid @RequestBody final PokemonDTO pokemon){
