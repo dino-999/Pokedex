@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,7 +17,11 @@ import java.util.function.Function;
 
 @Component
 public class JwtGeneratorServiceImpl implements JwtGeneratorService {
-    private static final String SECRET = "357638792F423F4528482B4D6251655468576D5A7133743677397A2443264629";
+    private final SecretKey SECRET;
+
+    public JwtGeneratorServiceImpl() {
+        this.SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    }
 
     @Override
     public String extractUsername(final String token) {
@@ -48,7 +53,7 @@ public class JwtGeneratorServiceImpl implements JwtGeneratorService {
     private Claims extractAllClaims(final String token) {
         return Jwts
                 .parserBuilder()
-                .setSigningKey(getSignKey())
+                .setSigningKey(SECRET)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
@@ -59,15 +64,11 @@ public class JwtGeneratorServiceImpl implements JwtGeneratorService {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15)) //15 minutes
-                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + 864000000))
+                .signWith(SECRET, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    private Key getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
 
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());

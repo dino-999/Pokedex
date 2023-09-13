@@ -27,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public AuthResponseDTO authenticate(@RequestBody final AuthRequestDTO request) {
-        if (!Objects.equals(request, new AuthRequestDTO("dino", "password"))) {
+        if (!Objects.equals(request, new AuthRequestDTO("username", "password"))) {
             throw new UsernameNotFoundException("User not found...");
         }
         final RefreshToken refreshToken = refreshTokenService.createRefreshToken(request.username());

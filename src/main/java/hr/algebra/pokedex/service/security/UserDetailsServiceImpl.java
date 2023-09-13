@@ -14,7 +14,7 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (!username.equals("dino")) {
+        if (!username.equals("username")) {
             throw new UsernameNotFoundException("User not found...");
         }
         final PasswordEncoder encoder = new BCryptPasswordEncoder();
