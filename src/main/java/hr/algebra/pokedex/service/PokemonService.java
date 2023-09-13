@@ -13,5 +13,7 @@ public interface PokemonService {
     Optional<PokemonDTO> update(PokemonDTO pokemon);
     void deleteById(Long id);
     void serializeAllPokemon();
+
+    void serializeBlacklistedClass();
     void deserializeAllPokemon();
 }

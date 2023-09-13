@@ -7,12 +7,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "pokemon")
-public class Pokemon {
+public class Pokemon implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

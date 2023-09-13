@@ -10,6 +10,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.headers()
+                .xssProtection()
+                .and()
                 .contentSecurityPolicy("script-src 'strict-dynamic' 'unsafe-inline' http: https:; object-src 'none'; base-uri 'none'; require-trusted-types-for 'script';");
         return http.build();
     }

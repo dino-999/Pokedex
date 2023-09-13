@@ -64,6 +64,23 @@ public class PokemonServiceImpl implements PokemonService{
     }
 
     @Override
+    public void serializeBlacklistedClass() {
+        Pokemon pokemon = new Pokemon();
+        pokemon.setId(1L);
+        pokemon.setName("test");
+        pokemon.setHeight(10);
+        pokemon.setWeight(10);
+        pokemon.setType("testiram");
+
+        try {
+            SerializationUtils.serialize(pokemon,"pokemon.ser");
+        }catch (Exception e){
+            System.out.println("Cant serialize pokemon");
+        }
+
+    }
+
+    @Override
     public void deserializeAllPokemon() {
         try {
             SerializationUtils.deserialize("pokemon.ser");
@@ -71,7 +88,7 @@ public class PokemonServiceImpl implements PokemonService{
             System.out.println(e.getMessage());
         }
         catch (IOException | ClassNotFoundException e) {
-            System.out.println("There was an error with the deserialization");
+            System.out.println("Error method:deserializeAllPokemon");
         }
     }
 }

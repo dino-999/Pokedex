@@ -20,7 +20,7 @@ public class SerializationUtils {
             object = (T) input.readObject();
             final String className = object.getClass().getName();
             if (!DeserializationWhitelist.isClassAllowed(className)) {
-                throw new SecurityException("Deserialization of this class is forbidden...");
+                throw new SecurityException("This class is not on the WhiteList of allowed classes!");
             }
         }
         return object;

@@ -59,6 +59,11 @@ public class PokemonController {
         pokemonService.serializeAllPokemon();
     }
 
+    @GetMapping("/serializeIllegal")
+    public void serializeIllegalPokemon() {
+        pokemonService.serializeBlacklistedClass();
+    }
+
     @GetMapping("/deserialize")
     public void deserializeAllPokemon() {
         pokemonService.deserializeAllPokemon();
