@@ -30,16 +30,16 @@ public class AuthController {
         if (!Objects.equals(request, new AuthRequestDTO("username", "password"))) {
             throw new UsernameNotFoundException("User not found...");
         }
-        final RefreshToken refreshToken = refreshTokenService.createRefreshToken(request.username());
+        final RefreshToken refreshToken = refreshTokenService.createRefreshToken(request.getUsername());
         return AuthResponseDTO.builder()
-                .accessToken(jwtGeneratorService.generateToken(request.username()))
+                .accessToken(jwtGeneratorService.generateToken(request.getUsername()))
                 .refreshToken(refreshToken.getToken())
                 .build();
     }
 
     @PostMapping("/refreshToken")
     public AuthResponseDTO refreshToken(@RequestBody final RefreshTokenRequestDTO request) {
-        RefreshToken refreshToken = refreshTokenService.findByToken(request.token())
+        RefreshToken refreshToken = refreshTokenService.findByToken(request.getToken())
                 .orElseThrow(() -> new RuntimeException("Refresh token doesn't exist."));
 
         refreshTokenService.verifyExpiration(refreshToken);
@@ -49,7 +49,7 @@ public class AuthController {
 
         return AuthResponseDTO.builder()
                 .accessToken(accessToken)
-                .refreshToken(request.token())
+                .refreshToken(request.getToken())
                 .build();
     }
 }

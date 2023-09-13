@@ -1,4 +1,12 @@
 package hr.algebra.pokedex.dto;
 
-public record RefreshTokenRequestDTO(String token) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class RefreshTokenRequestDTO{
+    private String token;
 }

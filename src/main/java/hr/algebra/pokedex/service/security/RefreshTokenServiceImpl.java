@@ -20,7 +20,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         final RefreshToken token = RefreshToken.builder()
                 .username(username)
                 .token(UUID.randomUUID().toString())
-                .expiryDate(Instant.now().plusMillis(600000))
+                .expiryDate(Instant.now().plusMillis(864000000))
                 .build();
         return refreshTokenRepository.save(token);
     }
