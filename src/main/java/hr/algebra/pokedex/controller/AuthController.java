@@ -39,16 +39,17 @@ public class AuthController {
 
     @PostMapping("/refreshToken")
     public AuthResponseDTO refreshToken(@RequestBody final RefreshTokenRequestDTO request) {
-        return refreshTokenService.findByToken(request.token())
-                .map(refreshTokenService::verifyExpiration)
-                .map(RefreshToken::getUsername)
-                .map(username -> {
-                    String accessToken = jwtGeneratorService.generateToken(username);
-                    return AuthResponseDTO.builder()
-                            .accessToken(accessToken)
-                            .refreshToken(request.token())
-                            .build();
-                }).orElseThrow(() -> new RuntimeException("Refresh token doesn't exist."));
+        RefreshToken refreshToken = refreshTokenService.findByToken(request.token())
+                .orElseThrow(() -> new RuntimeException("Refresh token doesn't exist."));
 
+        refreshTokenService.verifyExpiration(refreshToken);
+
+        String username = refreshToken.getUsername();
+        String accessToken = jwtGeneratorService.generateToken(username);
+
+        return AuthResponseDTO.builder()
+                .accessToken(accessToken)
+                .refreshToken(request.token())
+                .build();
     }
 }

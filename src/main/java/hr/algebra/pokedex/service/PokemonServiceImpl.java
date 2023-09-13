@@ -3,9 +3,11 @@ package hr.algebra.pokedex.service;
 import hr.algebra.pokedex.domain.Pokemon;
 import hr.algebra.pokedex.dto.PokemonDTO;
 import hr.algebra.pokedex.repository.PokemonRepository;
+import hr.algebra.pokedex.utils.SerializationUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,5 +49,29 @@ public class PokemonServiceImpl implements PokemonService{
     @Override
     public void deleteById(Long id) {
         pokemonRepository.deleteById(id);
+    }
+
+    @Override
+    public void serializeAllPokemon() {
+        List<PokemonDTO> pokemon = findAll();
+
+        try {
+            SerializationUtils.serialize(pokemon,"pokemon.ser");
+        }catch (Exception e){
+            System.out.println("Cant serialize pokemon");
+        }
+
+    }
+
+    @Override
+    public void deserializeAllPokemon() {
+        try {
+            SerializationUtils.deserialize("pokemon.ser");
+        } catch (SecurityException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (IOException | ClassNotFoundException e) {
+            System.out.println("There was an error with the deserialization");
+        }
     }
 }

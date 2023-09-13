@@ -51,4 +51,14 @@ public class PokemonController {
     public void delete(@PathVariable Long id){
         pokemonService.deleteById(id);
     }
+
+    @GetMapping("/serialize")
+    public void serializeAllPokemon() {
+        pokemonService.serializeAllPokemon();
+    }
+
+    @GetMapping("/deserialize")
+    public void deserializeAllPokemon() {
+        pokemonService.deserializeAllPokemon();
+    }
 }
